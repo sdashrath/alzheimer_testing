@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="memory-prompt">
+    <h2>Memory Test</h2>
+    <p>The words have been hidden. Please write the words you remember (comma-separated):</p>
+    <form method="POST" action="{{ url_for('memory_test') }}">
+        <input type="text" name="user_words" id="user_words" placeholder="Enter words here" required>
+        <button type="submit" class="button">Submit</button>
+    </form>
+</div>
+{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">

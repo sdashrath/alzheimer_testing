@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Alzheimer's Foundation</title>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="main-header">
+    <div class="header-top">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+        <h1>NeuroCheck</h1>
+    </div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('welcome') }}">Home</a></li>
+            <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+            <li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+            <li><a href="{{ url_for('research_behind_test') }}">Research Behind ALz Test</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+    
+    
+    
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <h2>Welcome to NeuroCheck</h2>
+        <h3>Your Companion in Early Cognitive Health Monitoring</h3>
+        <p>
+            NeuroCheck is a cutting-edge app designed to detect early signs of cognitive impairment related to Alzheimer's disease.
+            Through interactive assessments, memory games, and scientifically backed tools, our app helps you monitor cognitive health,
+            empowering you with valuable insights to take proactive steps.
+        </p>
+        <p>
+            Early detection makes a difference. Let’s take the journey toward better brain health together.
+        </p>
+        <a href="{{ url_for('personal_info') }}" class="btn get-started">Get Started</a>
+    </section>
+    
+    
+            
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Alzheimer's Test App | <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a> | <a href="{{ url_for('terms_of_service') }}">Terms of Service</a></p>
+    </footer>
+</body>
+</html>

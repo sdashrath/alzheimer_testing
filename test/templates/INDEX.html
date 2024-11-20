@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Foundation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>Alzheimer's Foundation</h1>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="{{ url_for('login') }}">Login/Register</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('personal_info') }}">Alzheimer’s Assessment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Banner -->
+    <section class="banner">
+        <div class="banner-content">
+            <h2>Providing Hope, Support, and Education</h2>
+            <p>Join us in making a difference in Alzheimer's research and care.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Alzheimer's Foundation. All rights reserved.</p>
+    </footer>
+</body>
+</html>

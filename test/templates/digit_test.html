@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-container">
+    <h2>Digit Span Test</h2>
+
+    <div id="digit-display">
+        <p>Memorize this sequence of digits:</p>
+        <p>{{ digits|join(" ") }}</p>
+    </div>
+
+    <div id="digit-input" style="display: none;">
+        <form method="POST" action="{{ url_for('digit_test') }}">
+            <label for="user_digits">Enter the digits you remember (space-separated):</label><br>
+            <textarea id="user_digits" name="user_digits" rows="2" cols="50" required></textarea><br><br>
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Display digits for 5 seconds, then show the input form
+    setTimeout(() => {
+        document.getElementById('digit-display').style.display = 'none';
+        document.getElementById('digit-input').style.display = 'block';
+    }, 5000); // 5000 milliseconds = 5 seconds
+</script>
+{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">

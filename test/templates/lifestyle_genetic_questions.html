@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-container">
+    <h2>Lifestyle and Genetic Questions</h2>
+    <form method="POST" action="{{ url_for('lifestyle_genetic_questions') }}">
+
+        <div class="question-group">
+            <label>Family History:</label>
+            <div class="option">
+                <input type="radio" name="family_history" value="0" required> No family history
+            </div>
+            <div class="option">
+                <input type="radio" name="family_history" value="2"> One affected first-degree relative
+            </div>
+            <div class="option">
+                <input type="radio" name="family_history" value="4"> Two or more affected first-degree relatives
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label>APOE Status (Optional):</label>
+            <div class="option">
+                <input type="radio" name="apoe_status" value="0"> No risk-related alleles
+            </div>
+            <div class="option">
+                <input type="radio" name="apoe_status" value="2"> One risk-related allele
+            </div>
+            <div class="option">
+                <input type="radio" name="apoe_status" value="4"> Two risk-related alleles
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label>Diet:</label>
+            <div class="option">
+                <input type="radio" name="diet" value="0" required> Healthy diet
+            </div>
+            <div class="option">
+                <input type="radio" name="diet" value="1"> Mixed diet
+            </div>
+            <div class="option">
+                <input type="radio" name="diet" value="2"> Unhealthy diet
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label>Exercise:</label>
+            <div class="option">
+                <input type="radio" name="exercise" value="0" required> Regular activity
+            </div>
+            <div class="option">
+                <input type="radio" name="exercise" value="1"> Some activity
+            </div>
+            <div class="option">
+                <input type="radio" name="exercise" value="2"> Sedentary lifestyle
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label>Social Engagement:</label>
+            <div class="option">
+                <input type="radio" name="social_engagement" value="0" required> High social activity
+            </div>
+            <div class="option">
+                <input type="radio" name="social_engagement" value="1"> Moderate social activity
+            </div>
+            <div class="option">
+                <input type="radio" name="social_engagement" value="2"> Low social engagement
+            </div>
+        </div>
+
+        <button type="submit" class="button">Next</button>
+    </form>
+</div>
+{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">

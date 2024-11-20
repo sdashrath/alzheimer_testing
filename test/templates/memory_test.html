@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-container">
+    <h2>Memory Test</h2>
+
+    <div id="word-display">
+        <p>Memorize these words:</p>
+        <ul>
+            {% for word in words %}
+            <li>{{ word }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="word-input" style="display: none;">
+        <form method="POST" action="{{ url_for('memory_test') }}">
+            <label for="user_words">Enter the words you remember (comma-separated):</label><br>
+            <textarea id="user_words" name="user_words" rows="4" cols="50" required></textarea><br><br>
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Display words for 5 seconds, then show the input form
+    setTimeout(() => {
+        document.getElementById('word-display').style.display = 'none';
+        document.getElementById('word-input').style.display = 'block';
+    }, 5000); // 5000 milliseconds = 5 seconds
+</script>
+{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">

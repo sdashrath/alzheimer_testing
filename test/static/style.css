@@ -1,0 +1,592 @@
+/* General Styles */
+
+/* Header Styles */
+.main-header {
+    background-color: #005f73;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between left and middle sections */
+}
+
+.logo {
+    width: 60px; /* Adjust logo size */
+    height: auto;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between logo and text */
+}
+
+.header-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.main-header {
+    background-color: #005f73; /* Header background color */
+    color: white;
+    display: flex;
+    flex-direction: column; /* Organize items vertically */
+    align-items: center; /* Align content horizontally */
+    padding: 20px 0;
+}
+
+.header-top {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 0;
+}
+
+.header-top .logo {
+    margin-right: 15px; /* Space between logo and title */
+}
+
+.header-top h1 {
+    font-size: 1.6rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center; /* Center navigation links */
+    width: 100%;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px; /* Space between navigation links */
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+    font-size: 1rem; /* Adjust font size as needed */
+}
+
+.navbar ul li a:hover {
+    color: #ffa500; /* Gold hover effect */
+}
+
+
+/* Remove the helpline and search bar styling as they are not needed */
+.contact-info,
+.search-bar-container {
+    display: none;
+}
+
+
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-bar-container {
+    display: flex;
+    gap: 5px;
+}
+
+.search-bar {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    padding: 5px 10px;
+    background-color: #3cbab2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.bar {
+    margin-top: 10px;
+}
+
+
+
+
+/* Welcome Section */
+
+
+.welcome-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 200px); /* Adjust for header and footer */
+    text-align: center;
+}
+
+.welcome-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.welcome-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.get-started {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: #3cbab2;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.get-started:hover {
+    background-color: #218838;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #005f73;
+    color: white;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #ffa500;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Additional Styling */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align items to the top */
+    align-items: center;
+    min-height: auto; /* Automatically adjust height to fit content */
+    text-align: center;
+    padding: 20px; /* Add some padding for spacing */
+}
+
+
+footer, header {
+    padding: 20px;
+}
+/* Global Logo Styling */
+
+/* Form Container Styling */
+.form-container {
+    max-width: 600px; /* Maximum width for the form */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px; /* Space inside the form */
+    background-color: #ffffff; /* White background for the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a 3D effect */
+}
+
+/* Form Headings */
+.form-container h2 {
+    text-align: center; /* Center-align the text */
+    color: #333; /* Dark gray text */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.form-container h3 {
+    color: #555; /* Lighter gray text */
+    margin-top: 20px; /* Space above sub-headings */
+}
+
+/* Form Labels */
+label {
+    font-weight: bold; /* Bold text */
+    color: #333; /* Dark gray text */
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%; /* Full-width inputs */
+    padding: 10px; /* Space inside the inputs */
+    margin: 5px 0 15px 0; /* Space above and below inputs */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Submit Button */
+.button {
+    width: 100%; /* Full-width button */
+    padding: 10px; /* Space inside the button */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Larger font size */
+    font-weight: bold; /* Bold text */
+}
+
+.button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Form Links */
+a {
+    display: inline-block; /* Block display for spacing */
+    margin-top: 10px; /* Space above links */
+    color: #4CAF50; /* Green text */
+    text-decoration: none; /* Remove underline */
+    text-align: center; /* Center-align links */
+    font-size: 14px; /* Smaller font size */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+/* Shape Styling */
+.shape {
+    width: 50px; /* Decreased width */
+    height: 50px; /* Decreased height */
+    border: 3px solid black; /* Retain the border style */
+    margin: 10px; /* Add some spacing around shapes */
+    display: inline-block; /* Align shapes in a row */
+    border-radius: 10%; /* Optional: Adjust for rounded shapes */
+}
+
+/* Adjust Shapes Container */
+.shapes-container {
+    text-align: center; /* Center the shapes on the page */
+    margin: 20px auto; /* Add some margin */
+}
+.shape-image {
+    width: 80px; /* Adjust size as needed */
+    height: 80px;
+    margin: 10px;
+    display: inline-block;
+    object-fit: contain; /* Ensure the shape fits well */
+    border: none; /* Remove the border */
+}
+/* Welcome Section Styling with Background Image */
+.welcome-section {
+    text-align: center;
+    padding: 60px 20px;
+    color: #005f73;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 40px auto;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: lighten;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent overlay */
+}
+
+.welcome-section h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #005f73;
+}
+
+.welcome-section h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #007991;
+}
+
+.welcome-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #005f73;
+}
+
+.welcome-section strong {
+    color: #007991;
+}
+
+.get-started {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    background-color: #3cbab2;
+    color: white;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+.get-started:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+}
+.header-top h1 {
+    font-size: 2rem; /* Adjust the font size as needed */
+    font-weight: bold;
+    margin-left: 15px;
+    color: white; /* Ensure visibility against the background */
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align to the left */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.header-top .logo {
+    margin-right: 15px; /* Add spacing between the logo and the text */
+}
+
+.header-top h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f5f7fa, #ffe6ea); /* Soft grayish blue to very light pink */
+    color: #333; /* Text color */
+    line-height: 1.6;
+}
+
+.welcome-section {
+    background-image: url('/static/images/back.png');
+    background-size: cover; /* Ensure the background covers the area */
+    background-repeat: no-repeat; /* Prevent repeating */
+    background-position: center; /* Center the image */
+    border-radius: 10px; /* Optional: Rounded corners */
+    padding: 20px; /* Add spacing inside the section */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    margin: 20px auto; /* Center the section on the page */
+    max-width: 800px; /* Optional: Limit the section width */
+}
+
+
+/* Section Styles */
+.section-content {
+    position: relative;
+    background-image: url('../static/images/back.png'); /* Add background image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 40px 20px; /* Add top padding for spacing */
+    margin: 0 auto; /* Remove vertical margin */
+    max-width: 900px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #005f73; /* Ensure text color is visible */
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Overlay to dim the image */
+.section-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Lighten the background */
+    z-index: -1; /* Ensure it stays behind the text */
+}
+
+/* Heading Styles */
+.section-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #005f73; /* Match the theme */
+}
+
+/* Paragraph Styles */
+.section-content p,
+.section-content ul {
+    list-style-type: disc; /* Default bullet points */
+    margin: 20px; /* Add space around the list */
+    padding: 0 40px; /* Indent the list */
+    text-align: left; /* Align text to the left */
+}
+
+.section-content ul li {
+    margin-bottom: 10px; /* Add space between list items */
+    line-height: 1.6; /* Improve readability */
+}
+
+.section-content ul li strong {
+    font-weight: bold; /* Ensure bold titles in the list */
+    color: #005f73; /* Match the theme */
+}
+
+
+
+/* Adjust body alignment */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #fce5f3, #ffffff); /* Soft gradient */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding-top: 20px; /* Add spacing from the top */
+}
+
+
+
+
+canvas {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.results-section {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-section h1, .results-section h3 {
+    text-align: center;
+    color: #005f73; /* Matches the theme */
+}
+
+.results-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #333;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 400px; /* Adjust this for chart size */
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the clock face */
+.clock-face {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border: 5px solid #005f73;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Positioning the numbers on the clock */
+.clock-position {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.position-12 { top: 5%; left: 50%; }
+.position-1 { top: 18%; left: 77%; }
+.position-2 { top: 35%; left: 88%; }
+.position-3 { top: 50%; left: 93%; }
+.position-4 { top: 68%; left: 88%; }
+.position-5 { top: 82%; left: 77%; }
+.position-6 { top: 92%; left: 50%; }
+.position-7 { top: 82%; left: 23%; }
+.position-8 { top: 68%; left: 12%; }
+.position-9 { top: 50%; left: 7%; }
+.position-10 { top: 35%; left: 12%; }
+.position-11 { top: 18%; left: 23%; }
+
+/* Styling for rectangular input fields on the clock face */
+.clock-position input {
+    width: 40px; /* Rectangle width */
+    height: 20px; /* Rectangle height */
+    border: 2px solid #ccc;
+    border-radius: 4px; /* Subtle rounding for a clean look */
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: bold;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin: 2px; /* Ensure spacing */
+    transition: all 0.3s ease;
+}
+
+.clock-position input:focus {
+    border-color: #005f73;
+    box-shadow: 0 4px 10px rgba(0, 95, 115, 0.3);
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+    .clock-face {
+        width: 260px;
+        height: 260px;
+    }
+    .clock-position input {
+        width: 35px;
+        height: 18px;
+    }
+}

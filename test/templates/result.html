@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Results</h1>
+    <h2>Summary</h2>
+    <p><strong>Total Risk Score:</strong> {{ total_risk_score }}</p>
+    <p><strong>Risk Category:</strong> {{ risk_category }}</p>
+
+    <h3>Risk Distribution</h3>
+    <div class="chart-container">
+        <img src="data:image/png;base64,{{ chart_url }}" alt="Risk Distribution Chart">
+    </div>
+
+    <h2>Detailed Scores</h2>
+    <h3>Lifestyle and Genetic Data</h3>
+    <p><strong>Family History:</strong> {{ session.get('family_history', 0) }}</p>
+    <p><strong>APOE Status:</strong> {{ session.get('apoe_status', 0) }}</p>
+    <p><strong>Diet:</strong> {{ session.get('diet', 0) }}</p>
+    <p><strong>Exercise:</strong> {{ session.get('exercise', 0) }}</p>
+    <p><strong>Social Engagement:</strong> {{ session.get('social_engagement', 0) }}</p>
+
+    <h3>Cognitive Test Scores</h3>
+    <p><strong>Memory Test:</strong> {{ memory_score_raw }} (Risk: {{ memory_risk }})</p>
+    <p><strong>Digit Test:</strong> {{ digit_score_raw }} (Risk: {{ digit_risk }})</p>
+    <p><strong>Shape Memory Test:</strong> {{ shape_memory_score }} (Risk: {{ shape_risk }})</p>
+</div>
+{% endblock %}

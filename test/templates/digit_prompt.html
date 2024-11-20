@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="digit-prompt">
+    <h2>Digit Span Test</h2>
+    <p>The digits have been hidden. Please enter the digits you remember in order:</p>
+    <form method="POST" action="{{ url_for('digit_test') }}">
+        <input type="text" name="user_digits" id="user_digits" placeholder="Enter digits here" required>
+        <button type="submit" class="button">Submit</button>
+    </form>
+</div>
+{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="clock-test">
+    <h2>Clock Test</h2>
+    <p>Place the numbers on the clock to show the time: <strong>10:10</strong>.</p>
+
+    <div class="clock-face">
+        {% for i in range(1, 13) %}
+        <div class="clock-position position-{{ i }}">
+            <label for="number-{{ i }}">{{ i }}</label>
+            <input type="text" name="numbers" id="number-{{ i }}" placeholder="Enter number" maxlength="2">
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3>Set the clock hands:</h3>
+    <form method="POST" action="{{ url_for('clock_test') }}">
+        <label for="hour_hand">Hour Hand Position:</label>
+        <input type="text" name="hour_hand" id="hour_hand" placeholder="Enter hour hand position (e.g., 10)" maxlength="2">
+        <br>
+        <label for="minute_hand">Minute Hand Position:</label>
+        <input type="text" name="minute_hand" id="minute_hand" placeholder="Enter minute hand position (e.g., 2)" maxlength="2">
+        <br>
+        <button type="submit" class="button">Submit</button>
+    </form>
+</div>
+{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">

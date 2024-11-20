@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="shape-memory-test">
+    <h2>Shape Memory Test</h2>
+    <p>Memorize these shapes:</p>
+
+    <!-- Display the shapes as images to remember -->
+    <div id="shapes-to-remember" class="shapes">
+        {% for shape in correct_shapes %}
+            <img src="{{ url_for('static', filename='images/shapes/' + shape + '.png') }}" alt="{{ shape }}" class="shape-image">
+        {% endfor %}
+    </div>
+
+    <!-- Hide shapes after 5 seconds and show selection form -->
+    <script>
+        setTimeout(function() {
+            document.getElementById("shapes-to-remember").style.display = "none";
+            document.getElementById("shape-selection").style.display = "block";
+        }, 5000); // Hide after 5 seconds
+    </script>
+
+    <!-- Shape selection form with images -->
+    <form id="shape-selection" method="POST" action="{{ url_for('shape_memory_test') }}" style="display: none;">
+        <p>Select the shapes you remember:</p>
+        <div class="shape-options">
+            {% for shape in all_shapes %}
+                <label>
+                    <input type="checkbox" name="selected_shapes" value="{{ shape }}">
+                    <img src="{{ url_for('static', filename='images/shapes/' + shape + '.png') }}" alt="{{ shape }}" class="shape-image">
+                </label>
+            {% endfor %}
+        </div>
+        <button type="submit" class="button">Submit</button>
+    </form>
+</div>
+{% endblock %}
+
+{% for shape in correct_shapes %}
+    <img src="{{ url_for('static', filename='images/shapes/' + shape + '.png') }}" 
+         alt="{{ shape }}" 
+         class="shape-image" 
+         style="width: 100px; height: 100px;">
+{% endfor %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+

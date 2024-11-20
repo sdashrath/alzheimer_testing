@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALz App Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="main-header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="ALz Logo">
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="{{ url_for('welcome') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+                    <li><a href="{{ url_for('research') }}">Research Behind ALz Test</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>ARE YOU FORGETTING MORE THAN BEFORE?</h2>
+        <p>Do you want to ensure it is not the first sign of Alzheimer's?</p>
+        <a href="{{ url_for('register') }}" class="btn">Register</a>
+        <a href="{{ url_for('more_info') }}" class="btn">More Info</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 ALz Test App. All rights reserved.</p>
+    </footer>
+</body>
+</html>

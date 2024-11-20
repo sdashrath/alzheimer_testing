@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Our Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>From Our Website</h1>
+
+        <!-- Header Section -->
+        <div class="intro">
+            <p>Explore the latest updates, expert advice, and resources from our organization. We aim to provide valuable insights and support to individuals and families navigating Alzheimer’s care and research.</p>
+        </div>
+
+        <!-- Sections with Cards -->
+        <div class="card-container">
+            <div class="card">
+                <h2>Research and Updates</h2>
+                <p>Stay informed about the latest breakthroughs in Alzheimer’s research, clinical trials, and scientific advancements.</p>
+                <a href="#" class="button">Learn More</a>
+            </div>
+            <div class="card">
+                <h2>Caregiver Resources</h2>
+                <p>Access tips, guides, and tools to support caregivers in managing the daily challenges of Alzheimer’s care.</p>
+                <a href="#" class="button">Explore Resources</a>
+            </div>
+            <div class="card">
+                <h2>Community Programs</h2>
+                <p>Join our workshops, support groups, and educational programs to connect with others and gain practical insights.</p>
+                <a href="#" class="button">Join Us</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional Footer -->
+    <footer>
+        <p>&copy; 2024 Cognitive Test App. All rights reserved.</p>
+    </footer>
+</body>
+</html>
