@@ -223,6 +223,76 @@ footer, header {
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a 3D effect */
 }
+/* Memory Box for Displaying Words */
+.memory-box {
+    background-color: #f0f8ff; /* Light blue background */
+    border: 1px solid #b0c4de; /* Steel blue border */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.memory-box p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.word-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.word-list li {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Digit Sequence Styling */
+.digit-sequence {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    background-color: #eaf4ff; /* Light blue highlight */
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+/* Input Form Styling */
+label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.helper-text {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
 
 /* Form Headings */
 .form-container h2 {
@@ -524,60 +594,10 @@ canvas {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for the clock face */
-.clock-face {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 20px auto;
-    background-color: #f9f9f9;
-    border: 5px solid #005f73;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-/* Positioning the numbers on the clock */
-.clock-position {
-    position: absolute;
-    transform: translate(-50%, -50%);
-}
 
-.position-12 { top: 5%; left: 50%; }
-.position-1 { top: 18%; left: 77%; }
-.position-2 { top: 35%; left: 88%; }
-.position-3 { top: 50%; left: 93%; }
-.position-4 { top: 68%; left: 88%; }
-.position-5 { top: 82%; left: 77%; }
-.position-6 { top: 92%; left: 50%; }
-.position-7 { top: 82%; left: 23%; }
-.position-8 { top: 68%; left: 12%; }
-.position-9 { top: 50%; left: 7%; }
-.position-10 { top: 35%; left: 12%; }
-.position-11 { top: 18%; left: 23%; }
 
-/* Styling for rectangular input fields on the clock face */
-.clock-position input {
-    width: 40px; /* Rectangle width */
-    height: 20px; /* Rectangle height */
-    border: 2px solid #ccc;
-    border-radius: 4px; /* Subtle rounding for a clean look */
-    text-align: center;
-    font-size: 0.85rem;
-    font-weight: bold;
-    outline: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    margin: 2px; /* Ensure spacing */
-    transition: all 0.3s ease;
-}
 
-.clock-position input:focus {
-    border-color: #005f73;
-    box-shadow: 0 4px 10px rgba(0, 95, 115, 0.3);
-}
 
 /* Responsive styling for smaller screens */
 @media (max-width: 768px) {
@@ -589,4 +609,83 @@ canvas {
         width: 35px;
         height: 18px;
     }
+}
+
+/* Error Summary Styling */
+.error-summary {
+    background-color: #fdecea; /* Light red background */
+    color: #d32f2f; /* Strong red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.error-summary h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.error-summary ul {
+    padding-left: 20px;
+    margin: 0;
+    list-style-type: disc;
+}
+
+/* Inline Field Error Styling */
+.field-error {
+    color: #d32f2f; /* Darker red for inline messages */
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Highlight Inputs with Errors */
+input.error, select.error {
+    border-color: #d32f2f; /* Highlight fields with errors in red */
+    box-shadow: 0 0 5px rgba(211, 47, 47, 0.5); /* Subtle red glow */
+}
+
+input.error:focus, select.error:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(211, 47, 47, 0.8); /* Intense red glow on focus */
+}
+
+/* General Form Layout */
+.form-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #003d80;
 }
