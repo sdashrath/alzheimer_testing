@@ -19,19 +19,76 @@ def welcome():
 @app.route('/personal-info', methods=['GET', 'POST'])
 def personal_info():
     if request.method == 'POST':
-        # Store personal information in session
-        session['first_name'] = request.form.get('first_name', '')
-        session['last_name'] = request.form.get('last_name', '')
-        session['street_address'] = request.form.get('street_address', '')
-        session['city'] = request.form.get('city', '')
-        session['zip_code'] = request.form.get('zip_code', '')
-        session['age'] = request.form.get('age', '')
-        session['gender'] = request.form.get('gender', '')
-        session['ethnicity'] = request.form.get('ethnicity', '')
-        session['state'] = request.form.get('state', '')
+        # Validate the form inputs
+        errors = {}
+        first_name = request.form.get('first_name', '').strip()
+        last_name = request.form.get('last_name', '').strip()
+        street_address = request.form.get('street_address', '').strip()
+        city = request.form.get('city', '').strip()
+        zip_code = request.form.get('zip_code', '').strip()
+        age = request.form.get('age', '').strip()
+        gender = request.form.get('gender', '').strip()
+        ethnicity = request.form.get('ethnicity', '').strip()
+        state = request.form.get('state', '').strip()
+
+        # First Name and Last Name: Only alphabets allowed
+        if not first_name.isalpha():
+            errors['first_name'] = "First name must contain only alphabets."
+        if not last_name.isalpha():
+            errors['last_name'] = "Last name must contain only alphabets."
+
+        # Street Address: Required field (can contain alphanumeric characters and spaces)
+        if not street_address:
+            errors['street_address'] = "Street address is required."
+
+        # City: Only alphabets allowed
+        if city and not city.replace(' ', '').isalpha():
+            errors['city'] = "City name must contain only alphabets."
+
+        # ZIP Code: Must be 5-digit number
+        if not zip_code.isdigit() or len(zip_code) != 5:
+            errors['zip_code'] = "ZIP code must be a 5-digit number."
+
+        # Age: Must be a positive integer
+        if not age.isdigit() or int(age) <= 0:
+            errors['age'] = "Age must be a positive number."
+
+        # Gender: Must be one of the provided options
+        if gender not in ['Male', 'Female', 'Other']:
+            errors['gender'] = "Please select a valid gender."
+
+        # Ethnicity: Must be one of the provided options
+        if ethnicity not in ['White', 'Black or African American', 'Hispanic or Latino', 'Asian', 'Other']:
+            errors['ethnicity'] = "Please select a valid ethnicity."
+
+        # State: Must be one of the provided state abbreviations
+        valid_states = [
+            'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA',
+            'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK',
+            'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+        ]
+        if state not in valid_states:
+            errors['state'] = "Please select a valid state."
+
+        # If there are errors, re-render the form with error messages and input data
+        if errors:
+            return render_template('personal_info.html', errors=errors, form_data=request.form)
+
+        # Store valid inputs in session
+        session['first_name'] = first_name
+        session['last_name'] = last_name
+        session['street_address'] = street_address
+        session['city'] = city
+        session['zip_code'] = zip_code
+        session['age'] = age
+        session['gender'] = gender
+        session['ethnicity'] = ethnicity
+        session['state'] = state
+
         return redirect(url_for('lifestyle_genetic_questions'))
 
-    return render_template('personal_info.html')
+    return render_template('personal_info.html', errors={}, form_data={})
+
 
 # ---------------------
 # Step 2: Lifestyle and Genetic Questions
@@ -88,12 +145,29 @@ def memory_test():
 
 @app.route('/digit-test', methods=['GET', 'POST'])
 def digit_test():
+    errors = []
+    form_data = {}
+
     if request.method == 'POST':
-        # Process user input
-        user_digits = [
-            int(num.strip()) for num in request.form.get("user_digits", "").split()
-            if num.strip().isdigit()
-        ]
+        # Retrieve and validate user input
+        user_digits_raw = request.form.get("user_digits", "").strip()
+        form_data['user_digits'] = user_digits_raw  # Preserve input for display in case of errors
+
+        # Check if input is empty
+        if not user_digits_raw:
+            errors.append("Input cannot be empty. Please enter the digits you remember.")
+
+        # Validate format: digits separated by spaces
+        elif not all(num.isdigit() for num in user_digits_raw.split()):
+            errors.append("Input must contain only digits separated by spaces.")
+
+        # If there are validation errors, re-render the form with errors
+        if errors:
+            digits = session.get('digit_sequence', [])  # Ensure digits are available for re-render
+            return render_template("digit_test.html", errors=errors, form_data=form_data, digits=digits)
+
+        # Process user input if validation passes
+        user_digits = [int(num) for num in user_digits_raw.split()]
         correct_digits = session.get('digit_sequence', [])
 
         # Calculate the score as the count of correct matches
@@ -106,36 +180,48 @@ def digit_test():
         session['user_digits'] = user_digits  # Store for result display
         return redirect(url_for('clock_test'))
 
-    # Generate random digits for the test
-    session['digit_sequence'] = generate_digit_sequence()
-    return render_template("digit_test.html", digits=session['digit_sequence'])
+    # For GET request, generate random digits for the test
+    session['digit_sequence'] = generate_digit_sequence()  # Ensure digits are generated and stored
+    return render_template("digit_test.html", digits=session['digit_sequence'], errors=[], form_data={})
 
 
 
 @app.route('/clock-test', methods=['GET', 'POST'])
 def clock_test():
+    errors = []
+
     if request.method == 'POST':
-        hour_hand = int(request.form.get('hour_hand', 0)) % 12
-        minute_hand = int(request.form.get('minute_hand', 0)) % 12
-        target_hour = session['target_time']['hour'] % 12
-        target_minute = session['target_time']['minute'] // 5
+        # Retrieve hour hand and minute hand input
+        hour_hand = request.form.get('hour_hand', '').strip()
+        minute_hand = request.form.get('minute_hand', '').strip()
 
-        hour_correct = hour_hand == target_hour
-        minute_correct = minute_hand == target_minute
+        # Validate hour hand
+        if not hour_hand.isdigit() or not (1 <= int(hour_hand) <= 12):
+            errors.append("Hour hand must be an integer between 1 and 12.")
 
-        session['clock_test_result'] = {
-            'target_hour': session['target_time']['hour'],
-            'target_minute': session['target_time']['minute'],
-            'hour_correct': hour_correct,
-            'minute_correct': minute_correct
-        }
+        # Validate minute hand
+        if not minute_hand.isdigit() or not (1 <= int(minute_hand) <= 12):
+            errors.append("Minute hand must be an integer between 1 and 12.")
 
+        # If there are validation errors, render the form with error messages
+        if errors:
+            target_time = session.get('target_time', {'hour': 10, 'minute': 10})  # Default to 10:10 if not set
+            return render_template('clock_test_simple.html', errors=errors, target_time=target_time)
+
+        # If validation passes, process the inputs
+        hour_hand = int(hour_hand) % 12  # Normalize the hour hand
+        minute_hand = int(minute_hand) % 12  # Normalize the minute hand
+
+        # Redirect to the next step
         return redirect(url_for('shape_memory_test'))
 
-    target_hour = randint(1, 12)
-    target_minute = randint(0, 11) * 5
+    # For GET request, set the target time and render the clock test form
+    target_hour = 10  # Example fixed target hour
+    target_minute = 10  # Example fixed target minute
     session['target_time'] = {'hour': target_hour, 'minute': target_minute}
-    return render_template('clock_test_simple.html', target_time=session['target_time'])
+
+    return render_template('clock_test_simple.html', errors=[], target_time=session['target_time'])
+
 
 @app.route('/shape-memory-test', methods=['GET', 'POST'])
 def shape_memory_test():
