@@ -13,73 +13,63 @@
                              a 15.9155 15.9155 0 0 1 0 31.831
                              a 15.9155 15.9155 0 0 1 0 -31.831"/>
                     <path class="circle"
-                          stroke-dasharray="{{ (total_risk_score * 100 // 29) }}, 100"
+                          stroke-dasharray="{{ risk_percentage }}, 100"
                           d="M18 2.0845
                              a 15.9155 15.9155 0 0 1 0 31.831
                              a 15.9155 15.9155 0 0 1 0 -31.831"/>
                 </svg>
-                <p class="percentage">{{ (total_risk_score * 100 // 29) }}%</p>
+                <p class="percentage">{{ risk_percentage }}%</p>
             </div>
             <p class="risk-category"><strong>Risk Category:</strong> {{ risk_category }}</p>
-        </div>
+        </div>            
 
         <div class="analysis">
             <h3>Risk Factor Analysis</h3>
             <ul>
-                {% if memory_risk == "High Risk" %}
-                <li>Your memory test indicates high cognitive risk. Consider engaging in memory-strengthening activities such as puzzles or brain games.</li>
+                {% if memory_risk_score > 0 %}
+                <li>Memory test risk detected. Engage in memory-strengthening activities such as puzzles.</li>
                 {% endif %}
                 
-                {% if digit_risk == "High Risk" %}
-                <li>Your digit test suggests issues with short-term memory. Practice exercises that focus on numerical recall.</li>
+                {% if digit_risk_score > 0 %}
+                <li>Digit test indicates potential memory issues. Practice numerical recall exercises.</li>
                 {% endif %}
                 
-                {% if shape_risk == "High Risk" %}
-                <li>Your shape memory test shows visual-spatial memory challenges. Explore visual puzzles or spatial navigation tasks.</li>
+                {% if shape_risk_score > 0 %}
+                <li>Shape memory test suggests visual-spatial challenges. Try visual puzzles or navigation tasks.</li>
                 {% endif %}
                 
                 {% if lifestyle_genetic_score > 10 %}
-                <li>Your lifestyle and genetic factors contribute significantly to your risk. Focus on improving your diet, exercise, and social engagement.</li>
-                {% endif %}
-                
-                {% if cognitive_total_score < 5 %}
-                <li>Cognitive test scores are lower than expected. Engage in activities to enhance overall cognitive health.</li>
-                {% endif %}
-                
-                {% if not memory_risk == "High Risk" and not digit_risk == "High Risk" and not shape_risk == "High Risk" and lifestyle_genetic_score <= 10 and cognitive_total_score >= 5 %}
-                <li>Maintain your current habits, but stay proactive in monitoring cognitive and lifestyle factors.</li>
+                <li>Lifestyle and genetic factors contribute to your risk. Focus on improving diet, exercise, and social engagement.</li>
                 {% endif %}
             </ul>
         </div>
-        
     </div>
 
     <div class="detailed-results">
-        <h3>Detailed Results</h3>
-        <p><strong>Total Memory Questions:</strong> {{ total_memory_questions }}</p>
-        <p><strong>Memory Test Score:</strong> {{ memory_score_raw }}</p>
-        <p><strong>Memory Test Risk:</strong> {{ memory_risk }}</p>
+      <!--  <h3>Detailed Results</h3>
+       <p><strong>Memory Test Score:</strong> {{ memory_score_raw }}</p>
+        <p><strong>Memory Test Risk Score:</strong> {{ memory_risk_score }}</p>
 
-        <p><strong>Total Digit Questions:</strong> {{ total_digit_questions }}</p>
+       
         <p><strong>Digit Test Score:</strong> {{ digit_score_raw }}</p>
-        <p><strong>Digit Test Risk:</strong> {{ digit_risk }}</p>
+        <p><strong>Digit Test Risk Score:</strong> {{ digit_risk_score }}</p>
 
-        <p><strong>Total Shape Questions:</strong> {{ total_shape_questions }}</p>
+       
         <p><strong>Shape Memory Test Score:</strong> {{ shape_memory_score['correct_count'] }}/{{ shape_memory_score['total_correct'] }}</p>
-        <p><strong>Shape Memory Test Risk:</strong> {{ shape_risk }}</p>
+        <p><strong>Shape Memory Test Risk Score:</strong> {{ shape_risk_score }}</p>
 
-        <h4>Lifestyle and Genetic Scores</h4>
+         <h4>Lifestyle and Genetic Scores</h4>
         <p><strong>Family History:</strong> {{ session.get('family_history', 0) }}</p>
         <p><strong>APOE Status:</strong> {{ session.get('apoe_status', 0) }}</p>
         <p><strong>Diet:</strong> {{ session.get('diet', 0) }}</p>
         <p><strong>Exercise:</strong> {{ session.get('exercise', 0) }}</p>
-        <p><strong>Social Engagement:</strong> {{ session.get('social_engagement', 0) }}</p>
+        <p><strong>Social Engagement:</strong> {{ session.get('social_engagement', 0) }}</p> -->
 
-        <h4>Total Scores</h4>
-        <p><strong>Total Cognitive Score:</strong> {{ cognitive_total_score }}</p>
-        <p><strong>Total Lifestyle and Genetic Score:</strong> {{ lifestyle_genetic_score }}</p>
+        <h3>Total Scores</h3>
+        <p><strong>Total Cognitive Risk Score:</strong> {{ total_cognitive_risk_score }}</p>
+        <p><strong>Total Lifestyle and Genetic Risk Score:</strong> {{ lifestyle_genetic_score }}</p>
         <p><strong>Total Risk Score:</strong> {{ total_risk_score }}</p>
-        <p><strong>Risk Category:</strong> {{ risk_category }}</p>
+        <p><strong>Risk Category:</strong> {{ risk_category }}</p> 
     </div>
 </div>
 
