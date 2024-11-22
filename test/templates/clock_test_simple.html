@@ -1,25 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="clock-test">
+<div class="form-container">
     <h2>Clock Test</h2>
-    <p>Please place the numbers 1 to 12 on the clock face in their correct positions.</p>
-
-    <div class="clock-face">
-        <!-- Blank input fields without placeholders -->
-        <div class="clock-position position-12"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-1"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-2"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-3"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-4"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-5"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-6"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-7"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-8"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-9"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-10"><input type="text" name="numbers" maxlength="2"></div>
-        <div class="clock-position position-11"><input type="text" name="numbers" maxlength="2"></div>
-    </div>
-
+    
     <!-- Display the dynamic target time -->
     <h3>Set the clock hands:</h3>
     <p>Set the clock to show the time: 
@@ -37,4 +20,4 @@
     </form>
 </div>
 {% endblock %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">

@@ -3,10 +3,66 @@
 <div class="memory-prompt">
     <h2>Memory Test</h2>
     <p>The words have been hidden. Please write the words you remember (comma-separated):</p>
-    <form method="POST" action="{{ url_for('memory_test') }}">
+    <p>Separate words with commas, e.g., "apple, banana, cherry".</p>
+    <form method="POST" action="{{ url_for('memory_prompt') }}" onsubmit="return validateInput();">
+        <label for="user_words">Words to remember:</label>
         <input type="text" name="user_words" id="user_words" placeholder="Enter words here" required>
         <button type="submit" class="button">Submit</button>
+        <p id="error-message" style="display: none; color: red;"></p>
     </form>
 </div>
+
 {% endblock %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<script>
+   
+    function validateInput() {
+        const input = document.getElementById("user_words").value.trim();
+        const errorMessage = document.getElementById("error-message");
+
+        // Reset error message
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+
+        // Check if input is empty
+        if (!input) {
+            errorMessage.textContent = "Please enter some words.";
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        // Check for valid format
+        const validFormat = /^[a-zA-Z0-9\s,]+$/;
+        if (!validFormat.test(input)) {
+            errorMessage.textContent = "Invalid characters detected. Only letters, numbers, spaces, and commas are allowed.";
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        // Split words and normalize
+        const words = input.split(",").map(word => word.trim().toLowerCase());
+
+        // Check for empty entries
+        if (words.some(word => word === "")) {
+            errorMessage.textContent = "Please avoid empty entries.";
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        // Check for duplicates
+        const uniqueWords = new Set(words);
+        if (uniqueWords.size !== words.length) {
+            errorMessage.textContent = "Duplicate words detected. Please enter unique words only.";
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        // Validation passed
+        return true;
+    }
+
+
+
+
+</script>

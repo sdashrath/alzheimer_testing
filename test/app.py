@@ -3,6 +3,7 @@ from random import randint, sample
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
@@ -13,185 +14,280 @@ SHAPES = ["circle", "square", "triangle", "star", "heart", "diamond", "hexagon",
 def welcome():
     return render_template("welcome.html")
 
+@app.route('/about-us')
+def about_us():
+    return render_template("about.html")
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template("privacy_policy.html")
+
+@app.route('/terms-of-service')
+def terms_of_service():
+    return render_template("terms_of_service.html")
+
+@app.route('/research-behind-test')
+def research_behind_test():
+    return render_template("research.html")
+
 # ---------------------
-# Step 1: Personal Questions
+# Personal Information Route
 # ---------------------
 @app.route('/personal-info', methods=['GET', 'POST'])
 def personal_info():
     if request.method == 'POST':
-        # Store personal information in session
-        session['first_name'] = request.form.get('first_name', '')
-        session['last_name'] = request.form.get('last_name', '')
-        session['street_address'] = request.form.get('street_address', '')
-        session['city'] = request.form.get('city', '')
-        session['zip_code'] = request.form.get('zip_code', '')
-        session['age'] = request.form.get('age', '')
-        session['gender'] = request.form.get('gender', '')
-        session['ethnicity'] = request.form.get('ethnicity', '')
-        session['state'] = request.form.get('state', '')
+        errors = {}
+        form_data = request.form.to_dict()
+
+        # First Name validation: Only alphabets, required
+        first_name = form_data.get('first_name', '').strip()
+        if not first_name:
+            errors['first_name'] = "First name is required."
+        elif not first_name.replace(' ', '').isalpha():
+            errors['first_name'] = "First name must contain only letters."
+
+        # Last Name validation: Only alphabets, required
+        last_name = form_data.get('last_name', '').strip()
+        if not last_name:
+            errors['last_name'] = "Last name is required."
+        elif not last_name.replace(' ', '').isalpha():
+            errors['last_name'] = "Last name must contain only letters."
+
+        # Street Address: Alphanumeric characters, required
+        street_address = form_data.get('street_address', '').strip()
+        if not street_address:
+            errors['street_address'] = "Street address is required."
+        elif not any(char.isalpha() for char in street_address):
+            errors['street_address'] = "Street address must contain letters."
+
+        # City validation: Alphabets only, required
+        city = form_data.get('city', '').strip()
+        if not city:
+            errors['city'] = "City is required."
+        elif not city.replace(' ', '').isalpha():
+            errors['city'] = "City must contain only letters."
+
+        # ZIP Code validation: Must be 5 digits
+        zip_code = form_data.get('zip_code', '').strip()
+        if not zip_code:
+            errors['zip_code'] = "ZIP code is required."
+        elif not zip_code.isdigit() or len(zip_code) != 5:
+            errors['zip_code'] = "ZIP code must be a 5-digit number."
+
+        # Age validation: Must be positive number
+        age = form_data.get('age', '').strip()
+        if not age:
+            errors['age'] = "Age is required."
+        elif not age.isdigit() or int(age) <= 0:
+            errors['age'] = "Age must be a positive number."
+
+        # Gender validation
+        gender = form_data.get('gender', '').strip()
+        if gender not in ['Male', 'Female', 'Other']:
+            errors['gender'] = "Please select a valid gender."
+
+        # Ethnicity validation
+        ethnicity = form_data.get('ethnicity', '').strip()
+        if ethnicity not in ['White', 'Black or African American', 'Hispanic or Latino', 'Asian', 'Other']:
+            errors['ethnicity'] = "Please select a valid ethnicity."
+
+        # State validation
+        state = form_data.get('state', '').strip()
+        valid_states = [
+            'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA',
+            'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK',
+            'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+        ]
+        if state not in valid_states:
+            errors['state'] = "Please select a valid state."
+
+        # If there are errors, return form with errors
+        if errors:
+            return render_template('personal_info.html', errors=errors, form_data=form_data)
+
+        # Save data in session and proceed to next step
+        session.update(form_data)
         return redirect(url_for('lifestyle_genetic_questions'))
 
-    return render_template('personal_info.html')
+    # For GET request, return empty form
+    return render_template('personal_info.html', errors={}, form_data={})
+
+
 
 # ---------------------
-# Step 2: Lifestyle and Genetic Questions
+# Lifestyle and Genetic Questions Route
 # ---------------------
 @app.route('/lifestyle-genetic-questions', methods=['GET', 'POST'])
 def lifestyle_genetic_questions():
     if request.method == 'POST':
-        # Store lifestyle and genetic data in session
-        family_history = int(request.form.get('family_history', 0))
-        apoe_status = int(request.form.get('apoe_status', 0)) if request.form.get('apoe_status') else 0
-        diet = int(request.form.get('diet', 0))
-        exercise = int(request.form.get('exercise', 0))
-        social_engagement = int(request.form.get('social_engagement', 0))
+        session['family_history'] = int(request.form.get('family_history', 0))
+        session['apoe_status'] = int(request.form.get('apoe_status', 0))
+        session['diet'] = int(request.form.get('diet', 0))
+        session['exercise'] = int(request.form.get('exercise', 0))
+        session['social_engagement'] = int(request.form.get('social_engagement', 0))
 
-        # Calculate total risk score
-        total_score = family_history + apoe_status + diet + exercise + social_engagement
-        session['lifestyle_genetic_score'] = total_score
-        session['family_history'] = family_history
-        session['apoe_status'] = apoe_status
-        session['diet'] = diet
-        session['exercise'] = exercise
-        session['social_engagement'] = social_engagement
+        session['lifestyle_genetic_score'] = (
+            session['family_history'] +
+            session['apoe_status'] +
+            session['diet'] +
+            session['exercise'] +
+            session['social_engagement']
+        )
         return redirect(url_for('memory_test'))
 
     return render_template('lifestyle_genetic_questions.html')
 
-# ---------------------
-# Step 3: Cognitive Tests
-# ---------------------
-def generate_random_words(num_words=5):
-    word_list = [
-        "apple", "banana", "grape", "orange", "peach", "car", "bike", "house",
-        "tree", "book", "table", "chair", "cat", "dog", "fish", "pen", "laptop", "phone"
-    ]
-    return sample(word_list, num_words)
 
-def generate_digit_sequence(length=5):
-    return [randint(0, 9) for _ in range(length)]
-
+# ---------------------
+# Memory Test Route
+# ---------------------
 @app.route('/memory-test', methods=['GET', 'POST'])
 def memory_test():
     if request.method == 'POST':
-        # Process user input
         user_words = {word.strip().lower() for word in request.form.get("user_words", "").split(",")}
         correct_words = {word.lower() for word in session.get('correct_words', [])}
-        session['memory_score'] = len(correct_words & user_words)
-        session['user_words'] = list(user_words)  # Store for result display
+        correct_count = len(correct_words & user_words)
+
+        memory_score = 5
+        incorrect_count = len(correct_words) - correct_count
+        memory_score -= incorrect_count
+        memory_score = max(memory_score, 0)
+
+        session['memory_score'] = memory_score
         return redirect(url_for('digit_test'))
 
-    # Generate random words for the test
-    session['correct_words'] = generate_random_words()
+    session['correct_words'] = sample(["apple", "banana", "car", "tree", "house"], 5)
     return render_template("memory_test.html", words=session['correct_words'])
 
 
+# ---------------------
+# Digit Test Route
+# ---------------------
 @app.route('/digit-test', methods=['GET', 'POST'])
 def digit_test():
     if request.method == 'POST':
-        # Process user input
-        user_digits = [
-            int(num.strip()) for num in request.form.get("user_digits", "").split()
-            if num.strip().isdigit()
-        ]
+        errors = []
+        user_digits_raw = request.form.get("user_digits", "").strip()  # Get raw input
+        
+        # Validate the input for emptiness and format
+        if not user_digits_raw:
+            errors.append("Input cannot be empty. Please enter the digits you remember.")
+        else:
+            try:
+                # Convert input into a list of integers
+                user_digits = [int(num) for num in user_digits_raw.split()]
+            except ValueError:
+                errors.append("Please enter valid digits separated by spaces.")
+        
+        # If there are errors, re-render the template with error messages
+        if errors:
+            return render_template(
+                "digit_test.html",
+                digits=session.get('digit_sequence', []),
+                errors=errors,
+                user_input=user_digits_raw
+            )
+
+        # Proceed with scoring if there are no errors
         correct_digits = session.get('digit_sequence', [])
+        correct_count = len([digit for digit in user_digits if digit in correct_digits])
 
-        # Calculate the score as the count of correct matches
-        score = len([digit for digit in user_digits if digit in correct_digits])
+        digit_score = 5
+        incorrect_count = len(correct_digits) - correct_count
+        digit_score -= incorrect_count
+        digit_score = max(digit_score, 0)
 
-        # Ensure the score does not exceed the total number of correct digits
-        score = min(score, len(correct_digits))
-
-        session['digit_score'] = score
-        session['user_digits'] = user_digits  # Store for result display
-        return redirect(url_for('clock_test'))
-
-    # Generate random digits for the test
-    session['digit_sequence'] = generate_digit_sequence()
-    return render_template("digit_test.html", digits=session['digit_sequence'])
-
-
-
-@app.route('/clock-test', methods=['GET', 'POST'])
-def clock_test():
-    if request.method == 'POST':
-        hour_hand = int(request.form.get('hour_hand', 0)) % 12
-        minute_hand = int(request.form.get('minute_hand', 0)) % 12
-        target_hour = session['target_time']['hour'] % 12
-        target_minute = session['target_time']['minute'] // 5
-
-        hour_correct = hour_hand == target_hour
-        minute_correct = minute_hand == target_minute
-
-        session['clock_test_result'] = {
-            'target_hour': session['target_time']['hour'],
-            'target_minute': session['target_time']['minute'],
-            'hour_correct': hour_correct,
-            'minute_correct': minute_correct
-        }
-
+        session['digit_score'] = digit_score
         return redirect(url_for('shape_memory_test'))
 
-    target_hour = randint(1, 12)
-    target_minute = randint(0, 11) * 5
-    session['target_time'] = {'hour': target_hour, 'minute': target_minute}
-    return render_template('clock_test_simple.html', target_time=session['target_time'])
+    # Generate a new sequence of random digits for the test
+    session['digit_sequence'] = [randint(0, 9) for _ in range(5)]
+    return render_template(
+        "digit_test.html",
+        digits=session['digit_sequence'],
+        errors=[],
+        user_input=""
+    )
 
+
+
+# ---------------------
+# Shape Memory Test Route
+# ---------------------
 @app.route('/shape-memory-test', methods=['GET', 'POST'])
 def shape_memory_test():
     if request.method == 'POST':
+        # Get the shapes selected by the user
         user_selected_shapes = {shape for shape in request.form.getlist('selected_shapes')}
-        correct_shapes = set(session.get('correct_shapes', []))
+        correct_shapes = set(session.get('correct_shapes', []))  # Retrieve correct shapes from the session
 
+        # Calculate the number of correct selections
         correct_count = len(correct_shapes & user_selected_shapes)
-        total_correct = len(correct_shapes)
 
-        session['shape_memory_score'] = {
+        # Store only the correct count in the session for compatibility with result calculations
+        session['shape_memory_score'] = correct_count
+
+        # Optional: Store detailed information for debugging or future use
+        session['shape_memory_details'] = {
             'correct_count': correct_count,
-            'total_correct': total_correct,
+            'total_correct': len(correct_shapes),
             'correct_shapes': list(correct_shapes),
             'user_selected_shapes': list(user_selected_shapes)
         }
 
         return redirect(url_for('result'))
 
-    correct_shapes = sample(SHAPES, 3)
-    all_shapes = sample(SHAPES, len(SHAPES))
+    # Generate shapes for the test
+    correct_shapes = sample(SHAPES, 3)  # Choose 3 shapes to memorize
+    all_shapes = sample(SHAPES, len(SHAPES))  # Randomize all shapes for display
+
+    # Store the correct shapes in the session for use in POST requests
     session['correct_shapes'] = correct_shapes
     session['all_shapes'] = all_shapes
+
+    # Pass data to the template
     return render_template('shape_memory_test.html', correct_shapes=correct_shapes, all_shapes=all_shapes)
 
-# ---------------------
-# Step 4: Result Page
-# ---------------------
 
-# Function to calculate risk based on incorrect answers
-
-def cognitive_risk(total_questions, correct_answers, thresholds):
+def cognitive_risk(total_questions, correct_answers):
+    """errors['zip_code']
+    Calculates the risk based on the number of correct answers and total questions.
+    """
     incorrect_answers = total_questions - correct_answers
-    if incorrect_answers == 0:  # No incorrect answers
-        return 0  # Low risk
-    elif incorrect_answers <= thresholds['moderate']:
-        return 2  # Moderate risk
+    if incorrect_answers == 0:
+        return "Low Risk"
+    elif incorrect_answers <= 2:
+        return "Moderate Risk"
     else:
-        return 4  # High risk
+        return "High Risk"
 
-
+# ---------------------
+# Result Page Route
+# ---------------------
 @app.route('/result')
 def result():
     # Retrieve scores
     total_memory_questions = len(session.get('correct_words', []))
     total_digit_questions = len(session.get('digit_sequence', []))
     total_shape_questions = len(session.get('correct_shapes', []))
+    
     memory_score_raw = session.get('memory_score', 0)
     digit_score_raw = session.get('digit_score', 0)
-    shape_memory_score = session.get('shape_memory_score', {}).get('correct_count', 0)
+    
+    # Ensure `shape_memory_score` is always a dictionary with the required keys
+    shape_memory_score = session.get('shape_memory_score', {})
+    if isinstance(shape_memory_score, int):  # Handle legacy or incorrect types
+        shape_memory_score = {"correct_count": shape_memory_score, "total_correct": total_shape_questions}
+    correct_shape_count = shape_memory_score.get("correct_count", 0)
+    total_shape_count = shape_memory_score.get("total_correct", 0)
 
-    memory_risk = cognitive_risk(total_memory_questions, memory_score_raw, {'moderate': 5})
-    digit_risk = cognitive_risk(total_digit_questions, digit_score_raw, {'moderate': 5})
-    shape_risk = cognitive_risk(total_shape_questions, shape_memory_score, {'moderate': 5})
-    cognitive_total_score = memory_risk + digit_risk + shape_risk
-
+    # Calculate risks
+    memory_risk = cognitive_risk(total_memory_questions, memory_score_raw)
+    digit_risk = cognitive_risk(total_digit_questions, digit_score_raw)
+    shape_risk = cognitive_risk(total_shape_count, correct_shape_count)
+    
+    # Total cognitive and lifestyle scores
+    cognitive_total_score = memory_score_raw + digit_score_raw + correct_shape_count
     lifestyle_genetic_score = (
         session.get('family_history', 0) +
         session.get('apoe_status', 0) +
@@ -199,79 +295,40 @@ def result():
         session.get('exercise', 0) +
         session.get('social_engagement', 0)
     )
-
-    total_risk_score = lifestyle_genetic_score + cognitive_total_score
-    risk_category = "Low Risk" if total_risk_score <= 5 else "Moderate Risk" if total_risk_score <= 10 else "High Risk"
-
-    # Generate a pie chart
-    labels = ['Cognitive Tests', 'Lifestyle & Genetics']
-    scores = [cognitive_total_score, lifestyle_genetic_score]
-    colors = ['#4CAF50', '#FF5722']
-
-    plt.figure(figsize=(6, 6))
-    wedges, texts, autotexts = plt.pie(
-        scores,
-        labels=labels,
-        colors=colors,
-        autopct='%1.1f%%',
-        startangle=140,
-        textprops={'fontsize': 12}
-    )
     
-    # Adjust label placement to avoid clipping
-    for text in texts:
-        text.set_horizontalalignment('center')
+    total_risk_score = cognitive_total_score + lifestyle_genetic_score
 
-    plt.title('Risk Distribution', fontsize=16, pad=20)
-    plt.axis('equal')  # Keep the chart circular
-
-    # Save the chart as a base64-encoded image
-    img = BytesIO()
-    plt.savefig(img, format='png', bbox_inches="tight")
-    img.seek(0)
-    chart_url = base64.b64encode(img.getvalue()).decode('utf-8')
-    plt.close()
-
+    # Adjust Risk Category Logic
+    if memory_risk == "High Risk" or digit_risk == "High Risk" or shape_risk == "High Risk":
+        risk_category = "High Risk"
+    elif memory_risk == "Very High Risk" or digit_risk == "Very High Risk" or shape_risk == "Very High Risk":
+        risk_category = "Very High Risk"
+    else:
+        risk_category = (
+            "Very Low Risk" if total_risk_score <= 4 else
+            "Low Risk" if total_risk_score <= 8 else
+            "Moderate Risk" if total_risk_score <= 12 else
+            "High Risk" if total_risk_score <= 16 else
+            "Very High Risk"
+        )
+    
+    # Pass data to template
     return render_template(
         "result.html",
-        lifestyle_genetic_score=lifestyle_genetic_score,
+        total_memory_questions=total_memory_questions,
+        total_digit_questions=total_digit_questions,
+        total_shape_questions=total_shape_count,
         memory_score_raw=memory_score_raw,
         digit_score_raw=digit_score_raw,
-        shape_memory_score=shape_memory_score,
+        shape_memory_score=correct_shape_count,
         memory_risk=memory_risk,
         digit_risk=digit_risk,
         shape_risk=shape_risk,
         cognitive_total_score=cognitive_total_score,
+        lifestyle_genetic_score=lifestyle_genetic_score,
         total_risk_score=total_risk_score,
-        risk_category=risk_category,
-        chart_url=chart_url
+        risk_category=risk_category
     )
-
-
-@app.route('/form-website')
-def form_website():
-    return render_template('form_website.html')
-
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-@app.route('/about-us')
-def about_us():
-    return render_template('about.html')
-
-@app.route('/privacy-policy')
-def privacy_policy():
-    return render_template('privacy_policy.html')
-
-@app.route('/research-behind-test')
-def research_behind_test():
-    return render_template('research.html')
-
-@app.route('/terms-of-service')
-def terms_of_service():
-    return render_template('terms_of_service.html')
-
 
 
 if __name__ == '__main__':

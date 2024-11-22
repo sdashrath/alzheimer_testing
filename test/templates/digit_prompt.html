@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="digit-prompt">
+<div class="form-container">
     <h2>Digit Span Test</h2>
     <p>The digits have been hidden. Please enter the digits you remember in order:</p>
+
+    <!-- Error summary -->
+    {% if errors and errors|length > 0 %}
+    <div class="error-summary">
+        <h4>Please correct the following errors:</h4>
+        <ul>
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Input form -->
     <form method="POST" action="{{ url_for('digit_test') }}">
-        <input type="text" name="user_digits" id="user_digits" placeholder="Enter digits here" required>
+        <input 
+            type="text" 
+            name="user_digits" 
+            id="user_digits" 
+            placeholder="Enter digits here" 
+            value="{{ form_data.get('user_digits', '') }}" 
+            class="{% if errors %}error{% endif %}" 
+            pattern="^\d+(\s\d+)*$" 
+            title="Please enter digits separated by spaces" 
+            required>
+        {% if errors %}
+        <div class="field-error">Invalid input: Please enter digits separated by spaces.</div>
+        {% endif %}
         <button type="submit" class="button">Submit</button>
     </form>
 </div>
 {% endblock %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
