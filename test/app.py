@@ -270,24 +270,21 @@ def result():
     total_memory_questions = len(session.get('correct_words', []))
     total_digit_questions = len(session.get('digit_sequence', []))
     total_shape_questions = len(session.get('correct_shapes', []))
-    
+
     memory_score_raw = session.get('memory_score', 0)
     digit_score_raw = session.get('digit_score', 0)
-    
-    # Ensure `shape_memory_score` is always a dictionary with the required keys
-    shape_memory_score = session.get('shape_memory_score', {})
-    if isinstance(shape_memory_score, int):  # Handle legacy or incorrect types
+
+    shape_memory_score = session.get('shape_memory_score', 0)
+    if isinstance(shape_memory_score, int):
         shape_memory_score = {"correct_count": shape_memory_score, "total_correct": total_shape_questions}
     correct_shape_count = shape_memory_score.get("correct_count", 0)
-    total_shape_count = shape_memory_score.get("total_correct", 0)
 
-    # Calculate risks
-    memory_risk = cognitive_risk(total_memory_questions, memory_score_raw)
-    digit_risk = cognitive_risk(total_digit_questions, digit_score_raw)
-    shape_risk = cognitive_risk(total_shape_count, correct_shape_count)
-    
-    # Total cognitive and lifestyle scores
-    cognitive_total_score = memory_score_raw + digit_score_raw + correct_shape_count
+    # Total incorrect scores (for risk calculation)
+    memory_risk_score = total_memory_questions - memory_score_raw
+    digit_risk_score = total_digit_questions - digit_score_raw
+    shape_risk_score = total_shape_questions - correct_shape_count
+
+    total_cognitive_risk_score = memory_risk_score + digit_risk_score + shape_risk_score
     lifestyle_genetic_score = (
         session.get('family_history', 0) +
         session.get('apoe_status', 0) +
@@ -295,40 +292,41 @@ def result():
         session.get('exercise', 0) +
         session.get('social_engagement', 0)
     )
-    
-    total_risk_score = cognitive_total_score + lifestyle_genetic_score
+    total_risk_score = total_cognitive_risk_score + lifestyle_genetic_score
 
-    # Adjust Risk Category Logic
-    if memory_risk == "High Risk" or digit_risk == "High Risk" or shape_risk == "High Risk":
-        risk_category = "High Risk"
-    elif memory_risk == "Very High Risk" or digit_risk == "Very High Risk" or shape_risk == "Very High Risk":
-        risk_category = "Very High Risk"
-    else:
-        risk_category = (
-            "Very Low Risk" if total_risk_score <= 4 else
-            "Low Risk" if total_risk_score <= 8 else
-            "Moderate Risk" if total_risk_score <= 12 else
-            "High Risk" if total_risk_score <= 16 else
-            "Very High Risk"
-        )
-    
+    # Maximum possible score
+    max_total_score = total_memory_questions + total_digit_questions + total_shape_questions + 20  # Lifestyle-genetic max score = 20
+    risk_percentage = (total_risk_score * 100) // max_total_score
+
+    # Determine risk category
+    risk_category = (
+        "Very Low Risk" if risk_percentage <= 20 else
+        "Low Risk" if risk_percentage <= 40 else
+        "Moderate Risk" if risk_percentage <= 60 else
+        "High Risk" if risk_percentage <= 80 else
+        "Very High Risk"
+    )
+
     # Pass data to template
     return render_template(
         "result.html",
         total_memory_questions=total_memory_questions,
         total_digit_questions=total_digit_questions,
-        total_shape_questions=total_shape_count,
+        total_shape_questions=total_shape_questions,
         memory_score_raw=memory_score_raw,
         digit_score_raw=digit_score_raw,
         shape_memory_score=correct_shape_count,
-        memory_risk=memory_risk,
-        digit_risk=digit_risk,
-        shape_risk=shape_risk,
-        cognitive_total_score=cognitive_total_score,
+        memory_risk_score=memory_risk_score,
+        digit_risk_score=digit_risk_score,
+        shape_risk_score=shape_risk_score,
+        total_cognitive_risk_score=total_cognitive_risk_score,
         lifestyle_genetic_score=lifestyle_genetic_score,
         total_risk_score=total_risk_score,
+        max_total_score=max_total_score,
+        risk_percentage=risk_percentage,
         risk_category=risk_category
     )
+
 
 
 if __name__ == '__main__':
